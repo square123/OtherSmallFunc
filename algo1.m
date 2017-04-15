@@ -65,7 +65,7 @@ for k=1:llen
         r4=[r4 kdata6(k)];
     end
 end
-        r1=mean(r1);
+        r1=mean(r1);%将最后一个输出
         r2=mean(r2);
         r3=mean(r3);
         r4=mean(r4);
@@ -95,7 +95,7 @@ for i=1:len%遍历的是探针
         if(kkdata1(j)>ppdata1(i))%可以先不找相等的值，先找大于该值的值，
             if(j-1>0)
                 if(kkdata1(j-1)==ppdata1(i))
-                    outputkinect1=[outputkinect1;kkdata1(j-1)];
+                    outputkinect1=[outputkinect1;ppdata1(i)];
                     outputkinect2=[outputkinect2;kkdata2(j-1)];
                     outputkinect3=[outputkinect3;kkdata3(j-1)];
                     outputkinect4=[outputkinect4;kkdata4(j-1)];
@@ -119,6 +119,7 @@ for i=1:len%遍历的是探针
                 outputkinect3=[outputkinect3;kkdata3(j)];
                 outputkinect4=[outputkinect4;kkdata4(j)];
                 outputkinect5=[outputkinect5;kkdata5(j)];
+                break;
             end
         end
     end
@@ -152,10 +153,10 @@ for i=1:num1-1
         xdata=[xdata,(pdata3(range1(i+1))-pdata3(range1(i)))];
     end
     %计算kinect的数据
-   if((outputkinect2(range1(i+1))-outputkinect2(range1(i)))>0.2)
+   if((outputkinect2(range1(i+1))-outputkinect2(range1(i)))>0.1)
         y=[y,-1];
         ydata=[ydata,(outputkinect2(range1(i+1))-outputkinect2(range1(i)))];
-    elseif((outputkinect2(range1(i+1))-outputkinect2(range1(i)))<-0.2)
+    elseif((outputkinect2(range1(i+1))-outputkinect2(range1(i)))<-0.1)
         y=[y,1];
         ydata=[ydata,(outputkinect2(range1(i+1))-outputkinect2(range1(i)))];
     else
@@ -176,10 +177,10 @@ for i=1:num2-1
         xdata=[xdata,(pdata4(range2(i+1))-pdata4(range2(i)))];
     end
     %计算kinect的数据
-   if((outputkinect3(range2(i+1))-outputkinect3(range2(i)))>0.2)
+   if((outputkinect3(range2(i+1))-outputkinect3(range2(i)))>0.1)
         y=[y,-1];
         ydata=[ydata,(outputkinect3(range2(i+1))-outputkinect3(range2(i)))];
-    elseif((outputkinect3(range2(i+1))-outputkinect3(range2(i)))<-0.2)
+    elseif((outputkinect3(range2(i+1))-outputkinect3(range2(i)))<-0.1)
         y=[y,1];
         ydata=[ydata,(outputkinect3(range2(i+1))-outputkinect3(range2(i)))];
     else
@@ -200,10 +201,10 @@ for i=1:num3-1
         xdata=[xdata,(pdata5(range3(i+1))-pdata5(range3(i)))];
     end
     %计算kinect的数据
-   if((outputkinect4(range3(i+1))-outputkinect4(range3(i)))>0.2)
+   if((outputkinect4(range3(i+1))-outputkinect4(range3(i)))>0.1)
         y=[y,-1];
         ydata=[ydata,(outputkinect4(range3(i+1))-outputkinect4(range3(i)))];
-    elseif((outputkinect4(range3(i+1))-outputkinect4(range3(i)))<-0.2)
+    elseif((outputkinect4(range3(i+1))-outputkinect4(range3(i)))<-0.1)
         y=[y,1];
         ydata=[ydata,(outputkinect4(range3(i+1))-outputkinect4(range3(i)))];
     else
@@ -224,10 +225,10 @@ for i=1:num4-1
         xdata=[xdata,(pdata6(range4(i+1))-pdata6(range4(i)))];
     end
     %计算kinect的数据
-   if((outputkinect5(range4(i+1))-outputkinect5(range4(i)))>0.2)
+   if((outputkinect5(range4(i+1))-outputkinect5(range4(i)))>0.1)
         y=[y,-1];
         ydata=[ydata,(outputkinect5(range4(i+1))-outputkinect5(range4(i)))];
-    elseif((outputkinect5(range4(i+1))-outputkinect5(range4(i)))<-0.2)
+    elseif((outputkinect5(range4(i+1))-outputkinect5(range4(i)))<-0.1)
         y=[y,1];
         ydata=[ydata,(outputkinect5(range4(i+1))-outputkinect5(range4(i)))];
     else
@@ -259,3 +260,4 @@ end
 
 %四个探针的权值。不能均分，再根据每个探针中非零数的间隔再对数据进行分割，
 %从而得到数目的序列，然后对数目序列在进行一个双层模糊逻辑的判断,距离映射给经验值，高斯序列不怎么样
+%需要满足一定数目下的值，才能完成统计，不然不太可信
