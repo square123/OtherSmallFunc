@@ -1,0 +1,150 @@
+function [score,num,x,y] = CompareKR( pdata3,pdata4,pdata5,pdata6,outputkinect2,outputkinect3,outputkinect4,outputkinect5 )
+%从之前的算法中摘出来的，这样写省事
+x=[];y=[];
+xdata=[];ydata=[];
+range1=find(pdata3);%得到范围
+range2=find(pdata4);
+range3=find(pdata5);
+range4=find(pdata6);
+num1=length(range1);%得到数目
+num2=length(range2);
+num3=length(range3);
+num4=length(range4);
+%进行序列的变换
+for i=1:num1-1
+    %计算探针的数据
+    if((pdata3(range1(i+1))-pdata3(range1(i)))>3)
+        x=[x,1];
+        xdata=[xdata,(pdata3(range1(i+1))-pdata3(range1(i)))];
+    elseif((pdata3(range1(i+1))-pdata3(range1(i))<-3))
+        x=[x,-1];
+        xdata=[xdata,(pdata3(range1(i+1))-pdata3(range1(i)))];
+    else
+        x=[x,0];
+        xdata=[xdata,(pdata3(range1(i+1))-pdata3(range1(i)))];
+    end
+    %计算kinect的数据
+    if((outputkinect2(range1(i+1))-outputkinect2(range1(i)))>0.1)
+        y=[y,-1];
+        ydata=[ydata,(outputkinect2(range1(i+1))-outputkinect2(range1(i)))];
+    elseif((outputkinect2(range1(i+1))-outputkinect2(range1(i)))<-0.1)
+        y=[y,1];
+        ydata=[ydata,(outputkinect2(range1(i+1))-outputkinect2(range1(i)))];
+    else
+        y=[y,0];
+        ydata=[ydata,(outputkinect2(range1(i+1))-outputkinect2(range1(i)))];
+    end
+end
+for i=1:num2-1
+    %计算探针的数据
+    if((pdata4(range2(i+1))-pdata4(range2(i)))>3)
+        x=[x,1];
+        xdata=[xdata,(pdata4(range2(i+1))-pdata4(range2(i)))];
+    elseif((pdata4(range2(i+1))-pdata4(range2(i))<-3))
+        x=[x,-1];
+        xdata=[xdata,(pdata4(range2(i+1))-pdata4(range2(i)))];
+    else
+        x=[x,0];
+        xdata=[xdata,(pdata4(range2(i+1))-pdata4(range2(i)))];
+    end
+    %计算kinect的数据
+    if((outputkinect3(range2(i+1))-outputkinect3(range2(i)))>0.1)
+        y=[y,-1];
+        ydata=[ydata,(outputkinect3(range2(i+1))-outputkinect3(range2(i)))];
+    elseif((outputkinect3(range2(i+1))-outputkinect3(range2(i)))<-0.1)
+        y=[y,1];
+        ydata=[ydata,(outputkinect3(range2(i+1))-outputkinect3(range2(i)))];
+    else
+        y=[y,0];
+        ydata=[ydata,(outputkinect3(range2(i+1))-outputkinect3(range2(i)))];
+    end
+end
+for i=1:num3-1
+    %计算探针的数据
+    if((pdata5(range3(i+1))-pdata5(range3(i)))>3)
+        x=[x,1];
+        xdata=[xdata,(pdata5(range3(i+1))-pdata5(range3(i)))];
+    elseif((pdata5(range3(i+1))-pdata5(range3(i)))<-3)
+        x=[x,-1];
+        xdata=[xdata,(pdata5(range3(i+1))-pdata5(range3(i)))];
+    else
+        x=[x,0];
+        xdata=[xdata,(pdata5(range3(i+1))-pdata5(range3(i)))];
+    end
+    %计算kinect的数据
+    if((outputkinect4(range3(i+1))-outputkinect4(range3(i)))>0.1)
+        y=[y,-1];
+        ydata=[ydata,(outputkinect4(range3(i+1))-outputkinect4(range3(i)))];
+    elseif((outputkinect4(range3(i+1))-outputkinect4(range3(i)))<-0.1)
+        y=[y,1];
+        ydata=[ydata,(outputkinect4(range3(i+1))-outputkinect4(range3(i)))];
+    else
+        y=[y,0];
+        ydata=[ydata,(outputkinect4(range3(i+1))-outputkinect4(range3(i)))];
+    end
+end
+for i=1:num4-1
+    %计算探针的数据
+    if((pdata6(range4(i+1))-pdata6(range4(i)))>3)
+        x=[x,1];
+        xdata=[xdata,(pdata6(range4(i+1))-pdata6(range4(i)))];
+    elseif((pdata6(range4(i+1))-pdata6(range4(i)))<-3)
+        x=[x,-1];
+        xdata=[xdata,(pdata6(range4(i+1))-pdata6(range4(i)))];
+    else
+        x=[x,0];
+        xdata=[xdata,(pdata6(range4(i+1))-pdata6(range4(i)))];
+    end
+    %计算kinect的数据
+    if((outputkinect5(range4(i+1))-outputkinect5(range4(i)))>0.1)
+        y=[y,-1];
+        ydata=[ydata,(outputkinect5(range4(i+1))-outputkinect5(range4(i)))];
+    elseif((outputkinect5(range4(i+1))-outputkinect5(range4(i)))<-0.1)
+        y=[y,1];
+        ydata=[ydata,(outputkinect5(range4(i+1))-outputkinect5(range4(i)))];
+    else
+        y=[y,0];
+        ydata=[ydata,(outputkinect5(range4(i+1))-outputkinect5(range4(i)))];
+    end
+end
+if(num1==0)%可能存在数据为0的情况，但还是需要使用每个RSSI的权值方法来计算，因为用
+           %平均当某个RSSI只有一个值时，其权重太大，所以必须要在这一步将数目大小考虑进来，
+           %对于那些数量少的，可能在后续去通过权值算法去处理
+    num1=1;
+end
+if(num2==0)
+    num2=1;
+end
+if(num3==0)
+    num3=1;
+end
+if(num4==0)
+    num4=1;
+end
+
+r1=(num1-1)/(num1+num2+num3+num4-4);%计算因子
+r2=(num2-1)/(num1+num2+num3+num4-4);
+r3=(num3-1)/(num1+num2+num3+num4-4);
+r4=(num4-1)/(num1+num2+num3+num4-4);
+r=[r1,r2,r3,r4];
+%序列比较框架 在编写C++要这么写
+index=[num1-1,num2-1,num3-1,num4-1];
+z=abs(x-y);
+z(z==1)=0.3;%权值替换
+z(z==0)=1;
+z(z==2)=0;
+%构建索引
+score=0;
+up=0;
+down=0;
+for i=1:4
+    up=up+1;
+    down=down+index(i);
+    if(index(i)~=0)
+    score=score+(sum(z(up:down))/index(i)*r(i)*100);
+    end
+    up=down;
+end
+num=num1+num2+num3+num4-4;
+end
+
